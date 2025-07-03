@@ -39,6 +39,8 @@ server/
   ├── socket/
   │   └── index.js
   └── server.js
+  ├── README.md
+  └── package.json            # Root-level monorepo control
 ```
 
 ## 🔧 Setup Instructions
