@@ -41,40 +41,161 @@ server/
   └── server.js
 ```
 
-## 🧪 Getting Started Locally
+## 🔧 Setup Instructions
 
-### 1. Clone the repo:
+### Prerequisites
+- Node.js >= 14
+- MongoDB running locally or on Atlas
+
+### 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/realtime-whiteboard.git
-cd realtime-whiteboard
+git clone https://github.com/your-username/whiteboard-app.git
+cd whiteboard-app
 ```
 
-### 2. Start the backend:
-```bash
-cd server
-npm install
-npm run dev
-```
-
-### 3. Start the frontend:
+### 2. Install client dependencies
 ```bash
 cd client
 npm install
-npm run dev
 ```
 
-## ⚙️ Environment Variables
-Create a `.env` file in the `/server` directory:
+### 3. Install server dependencies
+```bash
+cd ../server
+npm install
+```
+
+### 4. Setup environment
+Create a `.env` file in `/server`:
 ```
 PORT=5000
-MONGO_URI=your_mongodb_connection_string
+MONGO_URI=mongodb://localhost:27017/whiteboard
 ```
 
-## 📸 Screenshots
+### 5. Run the app
+Open two terminals:
 
-| Drawing | Cursor Sync |
-|--------|-------------|
-| ![Draw](https://via.placeholder.com/400x200) | ![Cursor](https://via.placeholder.com/400x200) |
+**Start backend:**
+```bash
+cd server
+npm start
+```
+
+**Start frontend:**
+```bash
+cd client
+npm start
+```
+
+App will be available at `http://localhost:3000`
+
+---
+
+## 🧠 Architecture Overview
+
+```
+Client (React)
+│
+├── DrawingCanvas.jsx        --> Captures mouse/touch and emits paths
+├── Toolbar.jsx              --> Tool controls (brush, eraser, clear)
+├── UserCursors.jsx          --> Renders other user cursors
+│
+└── Socket.io (WebSocket)
+        │
+        ▼
+Server (Node.js + Express + Socket.io)
+├── socket/index.js          --> Handles draw events, room join/leave, cursors
+├── models/Room.js           --> Mongoose schema for storing drawing data
+└── routes/room.js           --> REST API to fetch room data on join
+```
+
+---
+
+## 🌐 API + Socket Documentation
+
+### 🧩 Socket Events
+
+#### Client → Server
+| Event            | Payload                                  | Description                       |
+|------------------|-------------------------------------------|-----------------------------------|
+| `join-room`      | `{ roomId, username }`                   | Join or create a room             |
+| `draw-path`      | `{ roomId, path, color, width }`         | Send live path segment            |
+| `draw-end`       | `{ roomId, path, color, width }`         | Save complete stroke to DB        |
+| `clear-canvas`   | –                                        | Clear canvas and notify others    |
+| `cursor-move`    | `{ x, y }`                               | Send current cursor position      |
+| `leave-room`     | `roomId`                                 | Leave room and cleanup            |
+
+#### Server → Client
+| Event            | Payload                                  | Description                       |
+|------------------|-------------------------------------------|-----------------------------------|
+| `draw-path`      | `{ path, color, width }`                 | Draw path from other user         |
+| `clear-canvas`   | –                                        | Clear canvas                      |
+| `cursor-update`  | `{ id, x, y, color }`                    | Update user cursor                |
+| `cursor-remove`  | `socketId`                               | Remove disconnected user's cursor |
+| `user-count`     | `number`                                 | Update connected user count       |
+| `user-joined`    | `{ name }`                               | Show notification when user joins |
+| `welcome-user`   | `name`                                   | Show "you joined" message         |
+
+---
+
+### 🛠️ REST API
+
+#### `GET /api/rooms/:roomId`
+
+Returns all previous drawing history (strokes + clears) from MongoDB for a room.
+
+**Response:**
+```json
+{
+  "drawingData": [
+    {
+      "type": "stroke",
+      "data": {
+        "path": [ { "x": 120, "y": 250 }, ... ],
+        "color": "#000000",
+        "width": 4
+      },
+      "timestamp": "2025-07-03T10:15:00Z"
+    }
+  ]
+}
+```
+
+---
+
+## 🚀 Deployment Guide
+
+### 1. Build frontend
+```bash
+cd client
+npm run build
+```
+
+### 2. Serve React from Express (optional)
+Move `client/build` to `server/public` and in `server/index.js`:
+
+```js
+app.use(express.static(path.join(__dirname, 'public')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+```
+
+### 3. Use PM2 to run server in production
+```bash
+npm install -g pm2
+pm2 start server/index.js --name whiteboard-server
+```
+
+### 4. MongoDB Atlas (optional)
+Use your MongoDB Atlas connection string in `.env` file.
+
+---
+
+## 🙌 Acknowledgments
+
+- Socket.io docs
+- MongoDB official driver
 
 ## 💡 Future Enhancements
 - Undo/redo functionality
