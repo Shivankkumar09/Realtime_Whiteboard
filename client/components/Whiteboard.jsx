@@ -19,7 +19,7 @@ const Whiteboard = () => {
   const username = localStorage.getItem('username') || 'Anonymous';
   socket.emit('join-room', { roomId, username });
 
-  // You joined
+  
   socket.on('welcome-user', (name) => {
     setNotification(`You joined the room as ${name}`);
     setTimeout(() => setNotification(null), 3000);
