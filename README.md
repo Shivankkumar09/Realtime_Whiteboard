@@ -69,7 +69,7 @@ npm install
 Create a `.env` file in `/server`:
 ```
 PORT=5000
-MONGO_URI=mongodb://localhost:27017/whiteboard
+MONGO_URI=your mongodb connection string/ URL
 ```
 
 ### 5. Run the app
@@ -158,6 +158,31 @@ Returns all previous drawing history (strokes + clears) from MongoDB for a room.
       "timestamp": "2025-07-03T10:15:00Z"
     }
   ]
+}
+```
+
+#### `POST /api/rooms/join`
+
+Add a user to the room (stores name, time)
+
+**Body**
+```json
+{
+  "roomId": "A1B2C3",
+  "name": "Shivank"
+}
+```
+
+**Response:**
+```json
+{
+  "_id": "60...",
+  "roomId": "A1B2C3",
+  "lastActivity": "2025-07-03T17:00:00.000Z",
+  "participants": [
+    { "name": "Shivank" }
+  ],
+  ...
 }
 ```
 
