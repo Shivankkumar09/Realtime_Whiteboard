@@ -1,11 +1,25 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/RoomJoin.css'; // Ensure you have this CSS file for styling
+
+
+ function generateRoomCode(length = 6) {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  for (let i = 0; i < length; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+}
 
 const RoomJoin = () => {
   const [roomCode, setRoomCode] = useState('');
   const [name, setName] = useState('');
   const navigate = useNavigate();
+
+     useEffect(() => {
+    setRoomCode(generateRoomCode(8)); // or 6-8 chars
+  }, []);
 
   const handleJoin = async () => {
     if (roomCode.trim() && name.trim()) {

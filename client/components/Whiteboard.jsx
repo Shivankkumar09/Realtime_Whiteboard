@@ -42,7 +42,7 @@ const Whiteboard = () => {
   return (
     <div className="whiteboard-container">
       <div className="whiteboard-header">
-        <h3>Room: {roomId} | Users: {users}</h3>
+        <h3>Room-ID: {roomId} | Users: {users}</h3>
         {notification && (
           <div className="notification">
             {notification}
