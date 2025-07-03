@@ -1,0 +1,28 @@
+{
+  "name": "realtime_whiteboard",
+  "version": "1.0.0",
+  "description": "A full-stack real-time collaborative whiteboard built using the **MERN stack** and **Socket.io**. Users can join a shared room, draw together in real time, and see each other's cursors and brush updates. Built with performance and responsiveness in mind, including throttled event handling, canvas path syncing, and cursor tracking.",
+  "main": "index.js",
+  "scripts": {
+     "install-all": "npm --prefix client install && npm --prefix server install",
+    "client": "npm --prefix client start",
+    "server": "npm --prefix server start",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "npm --prefix client run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shivankkumar09/Realtime_Whiteboard.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Shivankkumar09/Realtime_Whiteboard/issues"
+  },
+  "homepage": "https://github.com/Shivankkumar09/Realtime_Whiteboard#readme",
+  "devDependencies": {
+    "concurrently": "^9.2.0"
+  }
+}
