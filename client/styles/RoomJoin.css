@@ -1,0 +1,63 @@
+.room-join-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f5f6fa;
+  font-family: 'Segoe UI', sans-serif;
+  padding: 20px;
+}
+
+.room-join-box {
+  background: white;
+  padding: 30px 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 100%;
+  max-width: 360px;
+}
+
+.room-join-box h1 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #222;
+}
+
+.room-join-box h2 {
+  margin: 10px 0 5px;
+  font-size: 1rem;
+  color: #333;
+  text-align: left;
+}
+
+.room-join-box input {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.room-join-box input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.room-join-box button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.room-join-box button:hover {
+  background-color: #0056b3;
+}
